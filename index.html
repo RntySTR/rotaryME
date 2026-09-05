@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umlaufbeschluss – Rotary Club Mühlacker-Enzkreis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Georgia&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Offizielle Rotary-Markenfarben (brandcenter.rotary.org) */
+    --royal-blue: #17458F;
+    --royal-blue-dark: #0F2E5E;
+    --azure: #005DAA;
+    --sky-blue: #01B4E7;
+    --gold: #F7A81B;
+    --cranberry: #D91B5C;
+    --cream: #F7F7F5;
+    --paper: #FFFFFF;
+    --line: #E3E1DA;
+    --ink: #1F2328;
+    --ink-soft: #5C6167;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Open Sans', Arial, sans-serif;
+    line-height: 1.55;
+  }
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+  header {
+    background: var(--paper);
+    margin: 0 -20px 28px;
+    padding: 24px 20px 0;
+    border-bottom: 4px solid var(--gold);
+    box-shadow: 0 1px 0 var(--royal-blue);
+  }
+  .masterbrand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding-bottom: 20px;
+  }
+  .masterbrand img.logo-full {
+    height: 54px;
+    width: auto;
+  }
+  .brand-name-fallback {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--royal-blue);
+  }
+  .brand-sub {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--royal-blue);
+    border-radius: 3px;
+    padding: 22px 22px 24px;
+    margin-bottom: 20px;
+  }
+  .poll-title {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    margin: 0 0 8px;
+    color: var(--royal-blue-dark);
+  }
+  .poll-text {
+    white-space: pre-wrap;
+    font-family: Georgia, serif;
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin: 0 0 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  select, input[type=text], textarea, input[type=datetime-local] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--ink);
+    background: var(--paper);
+  }
+  select:focus, input:focus, textarea:focus {
+    outline: 2px solid var(--azure);
+    outline-offset: 1px;
+    border-color: var(--azure);
+  }
+  textarea { resize: vertical; min-height: 70px; }
+  .field { margin-bottom: 16px; }
+  .decision-group {
+    display: flex;
+    gap: 10px;
+  }
+  .decision-btn {
+    flex: 1;
+    padding: 12px 8px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--paper);
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Open Sans', Arial, sans-serif;
+    cursor: pointer;
+    color: var(--ink-soft);
+  }
+  .decision-btn.selected[data-val="ja"] { background: var(--royal-blue); border-color: var(--royal-blue); color: white; }
+  .decision-btn.selected[data-val="nein"] { background: var(--cranberry); border-color: var(--cranberry); color: white; }
+  .decision-btn.selected[data-val="enthaltung"] { background: var(--ink-soft); border-color: var(--ink-soft); color: white; }
+  .submit-btn {
+    width: 100%;
+    padding: 13px;
+    margin-top: 6px;
+    background: var(--royal-blue);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Open Sans', Arial, sans-serif;
+    cursor: pointer;
+  }
+  .submit-btn:hover { background: var(--royal-blue-dark); }
+  .submit-btn:disabled { background: #B9C4D6; cursor: not-allowed; }
+  .msg {
+    font-size: 14px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 3px;
+  }
+  .msg.ok { background: #E9F1FB; color: var(--royal-blue-dark); border-left: 3px solid var(--royal-blue); }
+  .msg.err { background: #FBE9EF; color: var(--cranberry); border-left: 3px solid var(--cranberry); }
+  .tally {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .tally div {
+    flex: 1;
+    text-align: center;
+    padding: 10px 4px;
+    border-radius: 3px;
+    background: var(--cream);
+    border-top: 3px solid var(--line);
+  }
+  .tally .num { font-size: 22px; font-weight: 700; display: block; font-family: 'Open Sans', Arial, sans-serif; color: var(--royal-blue-dark); }
+  .tally .lab { font-size: 12px; color: var(--ink-soft); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; font-family: Georgia, serif; }
+  th, td { text-align: left; padding: 7px 4px; border-bottom: 1px solid var(--line); }
+  th { color: var(--royal-blue-dark); font-weight: 700; font-size: 12px; font-family: 'Open Sans', Arial, sans-serif; }
+  .pending { color: var(--ink-soft); font-size: 13px; margin-top: 10px; font-family: Georgia, serif; font-style: italic; }
+  .section-toggle {
+    background: none;
+    border: none;
+    color: var(--royal-blue);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Open Sans', Arial, sans-serif;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+  }
+  .admin { margin-top: 28px; }
+  .admin-body { display: none; margin-top: 14px; }
+  .admin-body.open { display: block; }
+  .row { display: flex; gap: 10px; }
+  .row > * { flex: 1; }
+  .small-btn {
+    padding: 9px 14px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Open Sans', Arial, sans-serif;
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .small-btn.danger { color: var(--cranberry); border-color: var(--cranberry); }
+  .archive-item {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .archive-item:last-child { border-bottom: none; }
+  .empty {
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-family: Georgia, serif;
+    font-style: italic;
+    text-align: center;
+    padding: 30px 0;
+  }
+  .refresh-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .deadline {
+    font-size: 13px;
+    margin-bottom: 14px;
+    padding: 8px 10px;
+    border-radius: 3px;
+    background: var(--cream);
+    border-left: 3px solid var(--gold);
+    color: var(--ink-soft);
+  }
+  .deadline.over { background: #FBE9EF; border-left-color: var(--cranberry); color: var(--cranberry); font-weight: 600; }
+  .export-row { display: flex; gap: 10px; margin-top: 14px; }
+  #printArea { display: none; }
+  @media print {
+    body * { visibility: hidden; }
+    #printArea, #printArea * { visibility: visible; }
+    #printArea { display: block; position: absolute; top: 0; left: 0; width: 100%; padding: 20px; }
+  }
+</style>
+</head>
+<body>
+<div id="printArea"></div>
+<div class="wrap">
+  <header>
+    <div class="masterbrand">
+      <img src="rotary-logo.png" alt="Rotary Club Mühlacker-Enzkreis" class="logo-full" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'brand-name-fallback',textContent:'Rotary Club Mühlacker-Enzkreis'}))">
+      <span class="brand-sub">Umlaufbeschluss des Vorstands</span>
+    </div>
+  </header>
+
+  <div id="connectionMsg"></div>
+  <div id="pollArea"></div>
+
+  <div class="admin">
+    <button class="section-toggle" id="adminToggle">Beschluss verwalten</button>
+    <div class="admin-body" id="adminBody">
+      <div class="card">
+        <label>Neuen Beschluss anlegen</label>
+        <div class="field">
+          <label for="newTitle">Name des Beschlusses</label>
+          <input type="text" id="newTitle" placeholder="z. B. Zustimmung zur Spende Projekt X">
+        </div>
+        <div class="field">
+          <label for="newOwner">Verantwortlich (Owner)</label>
+          <input type="text" id="newOwner" placeholder="Name der/des Verantwortlichen">
+        </div>
+        <div class="field">
+          <label for="newText">Begründung (optional)</label>
+          <textarea id="newText" placeholder="Der Vorstand möge beschließen, dass ..."></textarea>
+        </div>
+        <div class="field">
+          <label for="newVoters">Stimmberechtigte (kommagetrennt, optional)</label>
+          <input type="text" id="newVoters" placeholder="Anna Muster, Bernd Beispiel, ...">
+        </div>
+        <div class="field">
+          <label for="newDeadline">Frist (optional)</label>
+          <input type="datetime-local" id="newDeadline">
+        </div>
+        <button class="submit-btn" id="createPollBtn">Beschluss veröffentlichen</button>
+        <div id="createMsg"></div>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <button class="small-btn danger" id="closePollBtn">Aktuellen Beschluss schließen</button>
+          <button class="small-btn" id="archiveToggleBtn">Archiv anzeigen</button>
+        </div>
+        <div id="archiveArea" style="display:none; margin-top:14px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script>
+/* =========================================================
+   Firebase-Anbindung (dasselbe Projekt wie Mikas Fussballquiz,
+   eigene Sammlung "rotary_umlaufbeschluss").
+   Dokument-IDs sind bewusst >= 24 Zeichen lang, weil die
+   Firestore-Regeln das voraussetzen.
+   ========================================================= */
+const FIREBASE_KONFIG = {
+  apiKey: "AIzaSyDEHNm4XPxgA52EzHaPLxjWS_I-7W2uaOg",
+  authDomain: "mikas-fussballquiz.firebaseapp.com",
+  projectId: "mikas-fussballquiz",
+  storageBucket: "mikas-fussballquiz.firebasestorage.app",
+  messagingSenderId: "608975822915",
+  appId: "1:608975822915:web:3c980f4714ce223e06f4f6"
+};
+const COLLECTION = 'rotary_umlaufbeschluss';
+const META_ID = 'rotary-umlaufbeschluss-meta-doc';
+
+let db = null;
+let firebaseError = null;
+try {
+  firebase.initializeApp(FIREBASE_KONFIG);
+  db = firebase.firestore();
+} catch (e) {
+  firebaseError = e;
+}
+
+const KEY_CURRENT_ID = 'current_poll_id';
+const KEY_ARCHIVE_IDS = 'archive_ids';
+function pollKey(id) { return 'poll:' + id; }
+function votesKey(id) { return 'votes:' + id; }
+
+let selectedDecision = null;
+
+async function getVal(key) {
+  if (!db) return null;
+  try {
+    if (key === KEY_CURRENT_ID || key === KEY_ARCHIVE_IDS) {
+      const snap = await db.collection(COLLECTION).doc(META_ID).get();
+      if (!snap.exists) return null;
+      const data = snap.data();
+      return key === KEY_CURRENT_ID ? (data.currentId ?? null) : (data.archiveIds ?? []);
+    }
+    if (key.startsWith('votes:')) {
+      const id = key.slice(6);
+      const snap = await db.collection(COLLECTION).doc(id).get();
+      return snap.exists ? (snap.data().votes ?? {}) : null;
+    }
+    if (key.startsWith('poll:')) {
+      const id = key.slice(5);
+      const snap = await db.collection(COLLECTION).doc(id).get();
+      if (!snap.exists) return null;
+      const data = snap.data();
+      const { votes, ...poll } = data;
+      return poll;
+    }
+    return null;
+  } catch (e) {
+    console.error('Firestore-Lesefehler', e);
+    firebaseError = e;
+    return null;
+  }
+}
+
+async function setVal(key, value) {
+  if (!db) throw new Error('Keine Verbindung zu Firebase');
+  try {
+    if (key === KEY_CURRENT_ID) {
+      await db.collection(COLLECTION).doc(META_ID).set({ currentId: value }, { merge: true });
+      return;
+    }
+    if (key === KEY_ARCHIVE_IDS) {
+      await db.collection(COLLECTION).doc(META_ID).set({ archiveIds: value }, { merge: true });
+      return;
+    }
+    if (key.startsWith('votes:')) {
+      const id = key.slice(6);
+      await db.collection(COLLECTION).doc(id).set({ votes: value }, { merge: true });
+      return;
+    }
+    if (key.startsWith('poll:')) {
+      const id = key.slice(5);
+      await db.collection(COLLECTION).doc(id).set(value, { merge: true });
+      return;
+    }
+  } catch (e) {
+    console.error('Firestore-Schreibfehler', e);
+    firebaseError = e;
+    throw e;
+  }
+}
+
+async function checkConnection() {
+  const msgEl = document.getElementById('connectionMsg');
+  if (!db) {
+    msgEl.innerHTML = '<div class="card"><div class="msg err">Verbindung zu Firebase konnte nicht aufgebaut werden. Bitte Internetverbindung prüfen.</div></div>';
+    return false;
+  }
+  try {
+    await db.collection(COLLECTION).doc(META_ID).get();
+    msgEl.innerHTML = '';
+    return true;
+  } catch (e) {
+    msgEl.innerHTML = '<div class="card"><div class="msg err">Kein Zugriff auf die Datenbank. Vermutlich müssen die Firestore-Sicherheitsregeln noch um die Sammlung "' + COLLECTION + '" ergänzt werden.</div></div>';
+    return false;
+  }
+}
+
+async function loadPollArea() {
+  const ok = await checkConnection();
+  const area = document.getElementById('pollArea');
+  if (!ok) { area.innerHTML = ''; return; }
+  const currentId = await getVal(KEY_CURRENT_ID);
+  if (!currentId) {
+    area.innerHTML = '<div class="card"><div class="empty">Aktuell liegt kein Beschluss zur Abstimmung vor.</div></div>';
+    return;
+  }
+  let poll = await getVal(pollKey(currentId));
+  if (!poll) {
+    area.innerHTML = '<div class="card"><div class="empty">Aktuell liegt kein Beschluss zur Abstimmung vor.</div></div>';
+    return;
+  }
+
+  const deadlinePassed = poll.deadline && Date.now() > poll.deadline;
+  if ((poll.closed || deadlinePassed) && !poll.closed) {
+    poll.closed = true;
+    await setVal(pollKey(currentId), poll);
+    const archive = (await getVal(KEY_ARCHIVE_IDS)) || [];
+    if (!archive.includes(currentId)) { archive.push(currentId); await setVal(KEY_ARCHIVE_IDS, archive); }
+    await setVal(KEY_CURRENT_ID, null);
+  }
+
+  const votes = (await getVal(votesKey(currentId))) || {};
+  const voteEntries = Object.entries(votes);
+  const tally = computeTally(votes);
+
+  let deadlineHtml = '';
+  if (poll.deadline) {
+    deadlineHtml = deadlinePassed
+      ? `<div class="deadline over">Frist abgelaufen: ${formatTime(poll.deadline)}</div>`
+      : `<div class="deadline">Frist: ${formatTime(poll.deadline)}</div>`;
+  }
+
+  if (poll.closed) {
+    area.innerHTML = `
+      <div class="card">
+        <div class="poll-title">${escapeHtml(poll.title)}</div>
+        <div style="font-size:13px; color:var(--ink-soft); margin-bottom:14px;">Verantwortlich: ${escapeHtml(poll.owner || '–')}</div>
+        ${deadlineHtml}
+        ${poll.text ? `<div class="poll-text">${escapeHtml(poll.text)}</div>` : ''}
+        <div class="msg err" style="margin-top:0;">Die Frist ist abgelaufen, dieser Beschluss ist geschlossen.</div>
+        ${buildResultsHtml(voteEntries, tally, poll, false)}
+        <div class="export-row">
+          <button class="small-btn" id="copyBtn">Ergebnis kopieren</button>
+          <button class="small-btn" id="printBtn">Als PDF drucken</button>
+        </div>
+      </div>
+    `;
+    wireExportButtons(poll, voteEntries, tally);
+    return;
+  }
+
+  let voterOptions = '';
+  if (poll.voters && poll.voters.length) {
+    voterOptions = '<option value="">– Namen wählen –</option>' +
+      poll.voters.map(v => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');
+  }
+
+  const nameField = poll.voters && poll.voters.length
+    ? `<select id="voterName">${voterOptions}</select>`
+    : `<input type="text" id="voterName" placeholder="Vor- und Nachname">`;
+
+  area.innerHTML = `
+    <div class="card">
+      <div class="poll-title">${escapeHtml(poll.title)}</div>
+      <div style="font-size:13px; color:var(--ink-soft); margin-bottom:14px;">Verantwortlich: ${escapeHtml(poll.owner || '–')}</div>
+      ${deadlineHtml}
+      ${poll.text ? `<div class="poll-text">${escapeHtml(poll.text)}</div>` : ''}
+      <div class="field">
+        <label for="voterName">Ihr Name</label>
+        ${nameField}
+      </div>
+      <div class="field">
+        <label>Ihre Entscheidung</label>
+        <div class="decision-group">
+          <button type="button" class="decision-btn" data-val="ja">Ja</button>
+          <button type="button" class="decision-btn" data-val="nein">Nein</button>
+          <button type="button" class="decision-btn" data-val="enthaltung">Enthaltung</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="voterComment">Kommentar (optional)</label>
+        <textarea id="voterComment" placeholder="z. B. Anmerkung zur Entscheidung"></textarea>
+      </div>
+      <button class="submit-btn" id="submitVoteBtn">Stimme abgeben</button>
+      <div id="voteMsg"></div>
+    </div>
+
+    <div class="card">
+      <div class="refresh-line">
+        <span>${voteEntries.length} Stimme${voteEntries.length === 1 ? '' : 'n'} abgegeben</span>
+        <button class="section-toggle" id="refreshBtn">Aktualisieren</button>
+      </div>
+      ${buildResultsHtml(voteEntries, tally, poll, true)}
+      <div class="export-row">
+        <button class="small-btn" id="copyBtn">Ergebnis kopieren</button>
+        <button class="small-btn" id="printBtn">Als PDF drucken</button>
+      </div>
+    </div>
+  `;
+
+  document.querySelectorAll('.decision-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.decision-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedDecision = btn.dataset.val;
+    });
+  });
+
+  document.getElementById('submitVoteBtn').addEventListener('click', async () => {
+    const nameEl = document.getElementById('voterName');
+    const name = nameEl.value.trim();
+    const comment = document.getElementById('voterComment').value.trim();
+    const msgEl = document.getElementById('voteMsg');
+    if (!name) { msgEl.innerHTML = '<div class="msg err">Bitte Namen angeben.</div>'; return; }
+    if (!selectedDecision) { msgEl.innerHTML = '<div class="msg err">Bitte Ja, Nein oder Enthaltung wählen.</div>'; return; }
+    const current = (await getVal(votesKey(currentId))) || {};
+    current[name] = { decision: selectedDecision, comment: comment || '', timestamp: Date.now() };
+    await setVal(votesKey(currentId), current);
+    msgEl.innerHTML = '<div class="msg ok">Stimme gespeichert. Danke!</div>';
+    selectedDecision = null;
+    setTimeout(loadPollArea, 600);
+  });
+
+  document.getElementById('refreshBtn').addEventListener('click', loadPollArea);
+  wireExportButtons(poll, voteEntries, tally);
+}
+
+function computeTally(votes) {
+  const tally = { ja: 0, nein: 0, enthaltung: 0 };
+  Object.values(votes).forEach(v => { if (tally[v.decision] !== undefined) tally[v.decision]++; });
+  return tally;
+}
+
+function buildResultsHtml(voteEntries, tally, poll, includePending) {
+  const rows = voteEntries
+    .sort((a, b) => a[1].timestamp - b[1].timestamp)
+    .map(([name, v]) => `<tr><td>${escapeHtml(name)}</td><td>${labelFor(v.decision)}</td><td>${escapeHtml(v.comment || '–')}</td><td>${formatTime(v.timestamp)}</td></tr>`)
+    .join('');
+
+  let pendingHtml = '';
+  if (includePending && poll.voters && poll.voters.length) {
+    const votedNames = new Set(voteEntries.map(([n]) => n));
+    const pending = poll.voters.filter(v => !votedNames.has(v));
+    pendingHtml = pending.length
+      ? `<div class="pending">Noch nicht abgestimmt: ${pending.map(escapeHtml).join(', ')}</div>`
+      : `<div class="pending">Alle Stimmberechtigten haben abgestimmt.</div>`;
+  }
+
+  return `
+    <div class="tally">
+      <div><span class="num">${tally.ja}</span><span class="lab">Ja</span></div>
+      <div><span class="num">${tally.nein}</span><span class="lab">Nein</span></div>
+      <div><span class="num">${tally.enthaltung}</span><span class="lab">Enthaltung</span></div>
+    </div>
+    ${voteEntries.length ? `<table><thead><tr><th>Name</th><th>Entscheidung</th><th>Kommentar</th><th>Zeit</th></tr></thead><tbody>${rows}</tbody></table>` : ''}
+    ${pendingHtml}
+  `;
+}
+
+function buildExportText(poll, voteEntries, tally) {
+  const lines = [];
+  lines.push('UMLAUFBESCHLUSS – Rotary Club Mühlacker-Enzkreis');
+  lines.push('');
+  lines.push('Beschluss: ' + poll.title);
+  lines.push('Verantwortlich: ' + (poll.owner || '–'));
+  if (poll.deadline) lines.push('Frist: ' + formatTime(poll.deadline));
+  if (poll.text) { lines.push(''); lines.push('Begründung: ' + poll.text); }
+  lines.push('');
+  lines.push('Ergebnis: Ja ' + tally.ja + ' · Nein ' + tally.nein + ' · Enthaltung ' + tally.enthaltung);
+  lines.push('');
+  lines.push('Einzelstimmen:');
+  voteEntries
+    .sort((a, b) => a[1].timestamp - b[1].timestamp)
+    .forEach(([name, v]) => {
+      let line = '- ' + name + ': ' + labelFor(v.decision) + ' (' + formatTime(v.timestamp) + ')';
+      if (v.comment) line += ' – Kommentar: ' + v.comment;
+      lines.push(line);
+    });
+  return lines.join('\n');
+}
+
+function wireExportButtons(poll, voteEntries, tally) {
+  const copyBtn = document.getElementById('copyBtn');
+  const printBtn = document.getElementById('printBtn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      const text = buildExportText(poll, voteEntries, tally);
+      try {
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = 'Kopiert!';
+        setTimeout(() => { copyBtn.textContent = 'Ergebnis kopieren'; }, 1500);
+      } catch (e) {
+        alert(text);
+      }
+    });
+  }
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      const text = buildExportText(poll, voteEntries, tally);
+      const printArea = document.getElementById('printArea');
+      printArea.innerHTML = '<pre style="white-space:pre-wrap; font-family: Georgia, serif; font-size:14px; line-height:1.6; color:#1F2328;">' + escapeHtml(text) + '</pre>';
+      window.print();
+    });
+  }
+}
+
+function labelFor(d) {
+  return { ja: 'Ja', nein: 'Nein', enthaltung: 'Enthaltung' }[d] || d;
+}
+function formatTime(ts) {
+  const d = new Date(ts);
+  return d.toLocaleDateString('de-DE') + ' ' + d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+
+document.getElementById('adminToggle').addEventListener('click', () => {
+  document.getElementById('adminBody').classList.toggle('open');
+});
+
+document.getElementById('createPollBtn').addEventListener('click', async () => {
+  const title = document.getElementById('newTitle').value.trim();
+  const owner = document.getElementById('newOwner').value.trim();
+  const text = document.getElementById('newText').value.trim();
+  const votersRaw = document.getElementById('newVoters').value.trim();
+  const deadlineRaw = document.getElementById('newDeadline').value;
+  const msgEl = document.getElementById('createMsg');
+  if (!title) { msgEl.innerHTML = '<div class="msg err">Bitte einen Namen für den Beschluss angeben.</div>'; return; }
+  if (!owner) { msgEl.innerHTML = '<div class="msg err">Bitte einen Verantwortlichen (Owner) angeben.</div>'; return; }
+
+  const oldId = await getVal(KEY_CURRENT_ID);
+  if (oldId) {
+    const oldPoll = await getVal(pollKey(oldId));
+    if (oldPoll && !oldPoll.closed) {
+      oldPoll.closed = true;
+      await setVal(pollKey(oldId), oldPoll);
+      const archive = (await getVal(KEY_ARCHIVE_IDS)) || [];
+      if (!archive.includes(oldId)) { archive.push(oldId); await setVal(KEY_ARCHIVE_IDS, archive); }
+    }
+  }
+
+  const id = 'rotary-umlauf-poll-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+  const voters = votersRaw ? votersRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+  const deadline = deadlineRaw ? new Date(deadlineRaw).getTime() : null;
+  const poll = { id, title, owner, text, voters, deadline, createdAt: Date.now(), closed: false };
+  await setVal(pollKey(id), poll);
+  await setVal(KEY_CURRENT_ID, id);
+
+  document.getElementById('newTitle').value = '';
+  document.getElementById('newOwner').value = '';
+  document.getElementById('newText').value = '';
+  document.getElementById('newVoters').value = '';
+  document.getElementById('newDeadline').value = '';
+  msgEl.innerHTML = '<div class="msg ok">Beschluss veröffentlicht.</div>';
+  loadPollArea();
+});
+
+document.getElementById('closePollBtn').addEventListener('click', async () => {
+  const currentId = await getVal(KEY_CURRENT_ID);
+  if (!currentId) return;
+  const poll = await getVal(pollKey(currentId));
+  if (!poll) return;
+  if (!confirm('Diesen Beschluss wirklich schließen und ins Archiv verschieben?')) return;
+  poll.closed = true;
+  await setVal(pollKey(currentId), poll);
+  const archive = (await getVal(KEY_ARCHIVE_IDS)) || [];
+  if (!archive.includes(currentId)) { archive.push(currentId); await setVal(KEY_ARCHIVE_IDS, archive); }
+  await setVal(KEY_CURRENT_ID, null);
+  loadPollArea();
+});
+
+document.getElementById('archiveToggleBtn').addEventListener('click', async () => {
+  const area = document.getElementById('archiveArea');
+  if (area.style.display === 'none') {
+    area.style.display = 'block';
+    const ids = ((await getVal(KEY_ARCHIVE_IDS)) || []).slice().reverse();
+    if (!ids.length) {
+      area.innerHTML = '<div class="empty">Noch keine archivierten Beschlüsse.</div>';
+      return;
+    }
+    let html = '';
+    for (const id of ids) {
+      const poll = await getVal(pollKey(id));
+      if (!poll) continue;
+      const votes = (await getVal(votesKey(id))) || {};
+      const tally = computeTally(votes);
+      html += `<div class="archive-item"><strong>${escapeHtml(poll.title)}</strong><br>
+        <span style="color:var(--ink-soft)">${new Date(poll.createdAt).toLocaleDateString('de-DE')} · Verantwortlich: ${escapeHtml(poll.owner || '–')} · Ja: ${tally.ja} · Nein: ${tally.nein} · Enthaltung: ${tally.enthaltung}</span><br>
+        <button class="section-toggle archive-copy-btn" data-id="${id}" style="margin-top:6px;">Ergebnis kopieren</button></div>`;
+    }
+    area.innerHTML = html || '<div class="empty">Noch keine archivierten Beschlüsse.</div>';
+    area.querySelectorAll('.archive-copy-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.dataset.id;
+        const poll = await getVal(pollKey(id));
+        const votes = (await getVal(votesKey(id))) || {};
+        const voteEntries = Object.entries(votes);
+        const tally = computeTally(votes);
+        const text = buildExportText(poll, voteEntries, tally);
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Kopiert!';
+          setTimeout(() => { btn.textContent = 'Ergebnis kopieren'; }, 1500);
+        } catch (e) {
+          alert(text);
+        }
+      });
+    });
+  } else {
+    area.style.display = 'none';
+  }
+});
+
+loadPollArea();
+</script>
+</body>
+</html>
