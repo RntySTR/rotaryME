@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Umlaufbeschluss – Rotary Club Mühlacker-Enzkreis</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,56 +22,77 @@
     --ink: #1F2328;
     --ink-soft: #5C6167;
   }
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; -webkit-text-size-adjust: 100%; }
+  html { -webkit-tap-highlight-color: transparent; }
   body {
     margin: 0;
     background: var(--cream);
     color: var(--ink);
     font-family: 'Open Sans', Arial, sans-serif;
     line-height: 1.55;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
   .wrap {
     max-width: 640px;
     margin: 0 auto;
-    padding: 0 20px 80px;
+    padding: 0 20px 60px;
   }
   header {
-    background: var(--paper);
-    margin: 0 -20px 28px;
-    padding: 24px 20px 0;
+    background:
+      radial-gradient(ellipse 480px 200px at 50% -40px, rgba(1,180,231,0.10), transparent 70%),
+      var(--paper);
+    margin: 0 -20px 26px;
+    padding: 28px 20px 0;
     border-bottom: 4px solid var(--gold);
     box-shadow: 0 1px 0 var(--royal-blue);
   }
   .masterbrand {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    padding-bottom: 20px;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+    padding-bottom: 22px;
   }
   .masterbrand img.logo-full {
-    height: 54px;
+    height: 88px;
     width: auto;
   }
   .brand-name-fallback {
     font-family: 'Open Sans', Arial, sans-serif;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 26px;
     color: var(--royal-blue);
+  }
+  .main-heading {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 5vw, 30px);
+    color: var(--royal-blue-dark);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .heading-rule {
+    width: 52px;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 2px;
   }
   .brand-sub {
     font-family: Georgia, serif;
     font-style: italic;
-    font-size: 14px;
+    font-size: 14.5px;
     color: var(--ink-soft);
   }
   .card {
     background: var(--paper);
     border: 1px solid var(--line);
     border-left: 3px solid var(--royal-blue);
-    border-radius: 3px;
+    border-radius: 6px;
     padding: 22px 22px 24px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 14px rgba(23, 69, 143, 0.07);
   }
   .poll-title {
     font-family: 'Open Sans', Arial, sans-serif;
@@ -101,7 +122,7 @@
     padding: 10px 12px;
     border: 1px solid var(--line);
     border-radius: 3px;
-    font-size: 15px;
+    font-size: 16px;
     font-family: inherit;
     color: var(--ink);
     background: var(--paper);
@@ -113,12 +134,25 @@
   }
   textarea { resize: vertical; min-height: 70px; }
   .field { margin-bottom: 16px; }
+  .meta-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .meta-line svg { flex-shrink: 0; color: var(--royal-blue); }
   .decision-group {
     display: flex;
     gap: 10px;
   }
   .decision-btn {
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     padding: 12px 8px;
     border: 1px solid var(--line);
     border-radius: 3px;
@@ -129,6 +163,7 @@
     cursor: pointer;
     color: var(--ink-soft);
   }
+  .decision-btn svg { flex-shrink: 0; }
   .decision-btn.selected[data-val="ja"] { background: var(--royal-blue); border-color: var(--royal-blue); color: white; }
   .decision-btn.selected[data-val="nein"] { background: var(--cranberry); border-color: var(--cranberry); color: white; }
   .decision-btn.selected[data-val="enthaltung"] { background: var(--ink-soft); border-color: var(--ink-soft); color: white; }
@@ -160,18 +195,26 @@
     gap: 10px;
     margin-bottom: 16px;
   }
-  .tally div {
+  .tally > div {
     flex: 1;
     text-align: center;
-    padding: 10px 4px;
-    border-radius: 3px;
+    padding: 12px 4px 10px;
+    border-radius: 4px;
     background: var(--cream);
     border-top: 3px solid var(--line);
   }
+  .tally-ja { border-top-color: var(--royal-blue) !important; }
+  .tally-nein { border-top-color: var(--cranberry) !important; }
+  .tally-enthaltung { border-top-color: var(--ink-soft) !important; }
+  .tally-icon { display: block; margin: 0 auto 4px; width: 14px; height: 14px; }
+  .tally-ja .tally-icon { color: var(--royal-blue); }
+  .tally-nein .tally-icon { color: var(--cranberry); }
+  .tally-enthaltung .tally-icon { color: var(--ink-soft); }
   .tally .num { font-size: 22px; font-weight: 700; display: block; font-family: 'Open Sans', Arial, sans-serif; color: var(--royal-blue-dark); }
   .tally .lab { font-size: 12px; color: var(--ink-soft); }
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -4px; }
   table { width: 100%; border-collapse: collapse; font-size: 14px; font-family: Georgia, serif; }
-  th, td { text-align: left; padding: 7px 4px; border-bottom: 1px solid var(--line); }
+  th, td { text-align: left; padding: 7px 4px; border-bottom: 1px solid var(--line); white-space: nowrap; }
   th { color: var(--royal-blue-dark); font-weight: 700; font-size: 12px; font-family: 'Open Sans', Arial, sans-serif; }
   .pending { color: var(--ink-soft); font-size: 13px; margin-top: 10px; font-family: Georgia, serif; font-style: italic; }
   .section-toggle {
@@ -208,6 +251,26 @@
     font-size: 14px;
   }
   .archive-item:last-child { border-bottom: none; }
+  .archive-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 6px;
+  }
+  .archive-delete-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    color: var(--cranberry);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Open Sans', Arial, sans-serif;
+    cursor: pointer;
+    padding: 0;
+  }
+  .archive-delete-btn:hover { text-decoration: underline; }
   .empty {
     color: var(--ink-soft);
     font-size: 14px;
@@ -225,6 +288,9 @@
     margin-bottom: 8px;
   }
   .deadline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 13px;
     margin-bottom: 14px;
     padding: 8px 10px;
@@ -233,13 +299,111 @@
     border-left: 3px solid var(--gold);
     color: var(--ink-soft);
   }
+  .deadline svg { flex-shrink: 0; }
   .deadline.over { background: #FBE9EF; border-left-color: var(--cranberry); color: var(--cranberry); font-weight: 600; }
   .export-row { display: flex; gap: 10px; margin-top: 14px; }
   #printArea { display: none; }
+
+  /* Druck-/PDF-Dokument */
+  .print-doc {
+    font-family: Georgia, serif;
+    color: #1F2328;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .print-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 3px solid var(--gold);
+    box-shadow: 0 4px 0 -1px var(--royal-blue);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  .print-header img { height: 56px; width: auto; }
+  .print-org {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--royal-blue-dark);
+  }
+  .print-org-sub {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+  .print-title {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--royal-blue-dark);
+    margin: 0 0 10px;
+  }
+  .print-meta { font-size: 13px; color: var(--ink-soft); margin-bottom: 3px; }
+  .print-section-label {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--royal-blue);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 4px;
+    margin: 22px 0 10px;
+  }
+  .print-text { font-size: 14px; line-height: 1.6; white-space: pre-wrap; }
+  .print-badge-row { display: flex; gap: 12px; margin-top: 4px; }
+  .print-badge {
+    flex: 1;
+    text-align: center;
+    padding: 10px 4px 8px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    border-top-width: 3px;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .print-badge .num { display: block; font-size: 20px; font-weight: 700; color: var(--royal-blue-dark); }
+  .print-badge.ja { border-top-color: var(--royal-blue); }
+  .print-badge.nein { border-top-color: var(--cranberry); }
+  .print-badge.enthaltung { border-top-color: var(--ink-soft); }
+  .print-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .print-table th {
+    text-align: left;
+    background: #EFF3F9;
+    color: var(--royal-blue-dark);
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 11px;
+    padding: 7px 8px;
+    border-bottom: 2px solid var(--royal-blue);
+  }
+  .print-table td { padding: 7px 8px; border-bottom: 1px solid var(--line); }
+  .print-footer {
+    margin-top: 26px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
   @media print {
+    @page { margin: 16mm; }
     body * { visibility: hidden; }
     #printArea, #printArea * { visibility: visible; }
-    #printArea { display: block; position: absolute; top: 0; left: 0; width: 100%; padding: 20px; }
+    #printArea { display: block; position: absolute; top: 0; left: 0; width: 100%; padding: 0; }
+  }
+  @media (max-width: 480px) {
+    .wrap { padding-left: 16px; padding-right: 16px; padding-bottom: 40px; }
+    header { margin-left: -16px; margin-right: -16px; padding: 22px 16px 0; }
+    .masterbrand { gap: 10px; padding-bottom: 18px; }
+    .masterbrand img.logo-full { height: 68px; }
+    .card { padding: 18px 16px 20px; margin-bottom: 14px; }
+    .decision-btn span { font-size: 13.5px; }
+    .decision-group { gap: 7px; }
   }
 </style>
 </head>
@@ -249,7 +413,8 @@
   <header>
     <div class="masterbrand">
       <img src="rotary-logo.png" alt="Rotary Club Mühlacker-Enzkreis" class="logo-full" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'brand-name-fallback',textContent:'Rotary Club Mühlacker-Enzkreis'}))">
-      <span class="brand-sub">Umlaufbeschluss des Vorstands</span>
+      <h1 class="main-heading">Umlaufbeschluss des Vorstands</h1>
+      <div class="heading-rule"></div>
     </div>
   </header>
 
@@ -437,15 +602,15 @@ async function loadPollArea() {
   let deadlineHtml = '';
   if (poll.deadline) {
     deadlineHtml = deadlinePassed
-      ? `<div class="deadline over">Frist abgelaufen: ${formatTime(poll.deadline)}</div>`
-      : `<div class="deadline">Frist: ${formatTime(poll.deadline)}</div>`;
+      ? `<div class="deadline over">${ICON_CLOCK}<span>Frist abgelaufen: ${formatTime(poll.deadline)}</span></div>`
+      : `<div class="deadline">${ICON_CLOCK}<span>Frist: ${formatTime(poll.deadline)}</span></div>`;
   }
 
   if (poll.closed) {
     area.innerHTML = `
       <div class="card">
         <div class="poll-title">${escapeHtml(poll.title)}</div>
-        <div style="font-size:13px; color:var(--ink-soft); margin-bottom:14px;">Verantwortlich: ${escapeHtml(poll.owner || '–')}</div>
+        <div class="meta-line">${ICON_PERSON}<span>Verantwortlich: ${escapeHtml(poll.owner || '–')}</span></div>
         ${deadlineHtml}
         ${poll.text ? `<div class="poll-text">${escapeHtml(poll.text)}</div>` : ''}
         <div class="msg err" style="margin-top:0;">Die Frist ist abgelaufen, dieser Beschluss ist geschlossen.</div>
@@ -473,7 +638,7 @@ async function loadPollArea() {
   area.innerHTML = `
     <div class="card">
       <div class="poll-title">${escapeHtml(poll.title)}</div>
-      <div style="font-size:13px; color:var(--ink-soft); margin-bottom:14px;">Verantwortlich: ${escapeHtml(poll.owner || '–')}</div>
+      <div class="meta-line">${ICON_PERSON}<span>Verantwortlich: ${escapeHtml(poll.owner || '–')}</span></div>
       ${deadlineHtml}
       ${poll.text ? `<div class="poll-text">${escapeHtml(poll.text)}</div>` : ''}
       <div class="field">
@@ -483,9 +648,9 @@ async function loadPollArea() {
       <div class="field">
         <label>Ihre Entscheidung</label>
         <div class="decision-group">
-          <button type="button" class="decision-btn" data-val="ja">Ja</button>
-          <button type="button" class="decision-btn" data-val="nein">Nein</button>
-          <button type="button" class="decision-btn" data-val="enthaltung">Enthaltung</button>
+          <button type="button" class="decision-btn" data-val="ja">${ICON_CHECK}<span>Ja</span></button>
+          <button type="button" class="decision-btn" data-val="nein">${ICON_CROSS}<span>Nein</span></button>
+          <button type="button" class="decision-btn" data-val="enthaltung">${ICON_DASH}<span>Enthaltung</span></button>
         </div>
       </div>
       <div class="field">
@@ -559,11 +724,11 @@ function buildResultsHtml(voteEntries, tally, poll, includePending) {
 
   return `
     <div class="tally">
-      <div><span class="num">${tally.ja}</span><span class="lab">Ja</span></div>
-      <div><span class="num">${tally.nein}</span><span class="lab">Nein</span></div>
-      <div><span class="num">${tally.enthaltung}</span><span class="lab">Enthaltung</span></div>
+      <div class="tally-ja"><span class="tally-icon">${ICON_CHECK}</span><span class="num">${tally.ja}</span><span class="lab">Ja</span></div>
+      <div class="tally-nein"><span class="tally-icon">${ICON_CROSS}</span><span class="num">${tally.nein}</span><span class="lab">Nein</span></div>
+      <div class="tally-enthaltung"><span class="tally-icon">${ICON_DASH}</span><span class="num">${tally.enthaltung}</span><span class="lab">Enthaltung</span></div>
     </div>
-    ${voteEntries.length ? `<table><thead><tr><th>Name</th><th>Entscheidung</th><th>Kommentar</th><th>Zeit</th></tr></thead><tbody>${rows}</tbody></table>` : ''}
+    ${voteEntries.length ? `<div class="table-scroll"><table><thead><tr><th>Name</th><th>Entscheidung</th><th>Kommentar</th><th>Zeit</th></tr></thead><tbody>${rows}</tbody></table></div>` : ''}
     ${pendingHtml}
   `;
 }
@@ -590,6 +755,57 @@ function buildExportText(poll, voteEntries, tally) {
   return lines.join('\n');
 }
 
+function buildExportHtml(poll, voteEntries, tally) {
+  const sorted = voteEntries.slice().sort((a, b) => a[1].timestamp - b[1].timestamp);
+  const rows = sorted.map(([name, v]) => `
+    <tr>
+      <td>${escapeHtml(name)}</td>
+      <td>${labelFor(v.decision)}</td>
+      <td>${escapeHtml(v.comment || '–')}</td>
+      <td>${formatTime(v.timestamp)}</td>
+    </tr>`).join('');
+
+  const now = new Date();
+  const generated = now.toLocaleDateString('de-DE') + ' um ' + now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) + ' Uhr';
+
+  return `
+    <div class="print-doc">
+      <div class="print-header">
+        <img src="rotary-logo.png" alt="Rotary Club Mühlacker-Enzkreis" onerror="this.style.display='none'">
+        <div>
+          <div class="print-org">Rotary Club Mühlacker-Enzkreis</div>
+          <div class="print-org-sub">Umlaufbeschluss des Vorstands</div>
+        </div>
+      </div>
+
+      <h1 class="print-title">${escapeHtml(poll.title)}</h1>
+      <div class="print-meta">Verantwortlich: ${escapeHtml(poll.owner || '–')}</div>
+      ${poll.deadline ? `<div class="print-meta">Frist: ${formatTime(poll.deadline)}</div>` : ''}
+      <div class="print-meta">Erstellt am: ${formatTime(poll.createdAt)}</div>
+
+      ${poll.text ? `
+        <div class="print-section-label">Begründung</div>
+        <div class="print-text">${escapeHtml(poll.text)}</div>
+      ` : ''}
+
+      <div class="print-section-label">Ergebnis</div>
+      <div class="print-badge-row">
+        <div class="print-badge ja"><span class="num">${tally.ja}</span><span>Ja</span></div>
+        <div class="print-badge nein"><span class="num">${tally.nein}</span><span>Nein</span></div>
+        <div class="print-badge enthaltung"><span class="num">${tally.enthaltung}</span><span>Enthaltung</span></div>
+      </div>
+
+      <div class="print-section-label">Einzelstimmen</div>
+      <table class="print-table">
+        <thead><tr><th>Name</th><th>Entscheidung</th><th>Kommentar</th><th>Zeitpunkt</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+
+      <div class="print-footer">Erzeugt am ${generated} über das Umlaufbeschluss-Tool des Rotary Club Mühlacker-Enzkreis.</div>
+    </div>
+  `;
+}
+
 function wireExportButtons(poll, voteEntries, tally) {
   const copyBtn = document.getElementById('copyBtn');
   const printBtn = document.getElementById('printBtn');
@@ -607,9 +823,8 @@ function wireExportButtons(poll, voteEntries, tally) {
   }
   if (printBtn) {
     printBtn.addEventListener('click', () => {
-      const text = buildExportText(poll, voteEntries, tally);
       const printArea = document.getElementById('printArea');
-      printArea.innerHTML = '<pre style="white-space:pre-wrap; font-family: Georgia, serif; font-size:14px; line-height:1.6; color:#1F2328;">' + escapeHtml(text) + '</pre>';
+      printArea.innerHTML = buildExportHtml(poll, voteEntries, tally);
       window.print();
     });
   }
@@ -625,6 +840,13 @@ function formatTime(ts) {
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 }
+
+const ICON_CHECK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const ICON_CROSS = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+const ICON_DASH = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+const ICON_PERSON = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg>';
+const ICON_CLOCK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 16 14"/></svg>';
+const ICON_TRASH = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>';
 
 document.getElementById('adminToggle').addEventListener('click', () => {
   document.getElementById('adminBody').classList.toggle('open');
@@ -681,43 +903,71 @@ document.getElementById('closePollBtn').addEventListener('click', async () => {
   loadPollArea();
 });
 
+async function renderArchive() {
+  const area = document.getElementById('archiveArea');
+  const ids = ((await getVal(KEY_ARCHIVE_IDS)) || []).slice().reverse();
+  if (!ids.length) {
+    area.innerHTML = '<div class="empty">Noch keine archivierten Beschlüsse.</div>';
+    return;
+  }
+  let html = '';
+  for (const id of ids) {
+    const poll = await getVal(pollKey(id));
+    if (!poll) continue;
+    const votes = (await getVal(votesKey(id))) || {};
+    const tally = computeTally(votes);
+    html += `<div class="archive-item">
+        <strong>${escapeHtml(poll.title)}</strong><br>
+        <span style="color:var(--ink-soft)">${new Date(poll.createdAt).toLocaleDateString('de-DE')} · Verantwortlich: ${escapeHtml(poll.owner || '–')} · Ja: ${tally.ja} · Nein: ${tally.nein} · Enthaltung: ${tally.enthaltung}</span><br>
+        <div class="archive-actions">
+          <button class="section-toggle archive-copy-btn" data-id="${id}">Ergebnis kopieren</button>
+          <button class="archive-delete-btn" data-id="${id}" data-title="${escapeHtml(poll.title)}">${ICON_TRASH}<span>Löschen</span></button>
+        </div>
+      </div>`;
+  }
+  area.innerHTML = html || '<div class="empty">Noch keine archivierten Beschlüsse.</div>';
+
+  area.querySelectorAll('.archive-copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = btn.dataset.id;
+      const poll = await getVal(pollKey(id));
+      const votes = (await getVal(votesKey(id))) || {};
+      const voteEntries = Object.entries(votes);
+      const tally = computeTally(votes);
+      const text = buildExportText(poll, voteEntries, tally);
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = 'Kopiert!';
+        setTimeout(() => { btn.textContent = 'Ergebnis kopieren'; }, 1500);
+      } catch (e) {
+        alert(text);
+      }
+    });
+  });
+
+  area.querySelectorAll('.archive-delete-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = btn.dataset.id;
+      const title = btn.dataset.title;
+      const confirmed = confirm('Beschluss "' + title + '" wirklich endgültig löschen? Alle abgegebenen Stimmen gehen dabei verloren. Dies kann nicht rückgängig gemacht werden.');
+      if (!confirmed) return;
+      try {
+        await db.collection(COLLECTION).doc(id).delete();
+        const archive = (await getVal(KEY_ARCHIVE_IDS)) || [];
+        await setVal(KEY_ARCHIVE_IDS, archive.filter(a => a !== id));
+        await renderArchive();
+      } catch (e) {
+        alert('Löschen fehlgeschlagen: ' + e.message);
+      }
+    });
+  });
+}
+
 document.getElementById('archiveToggleBtn').addEventListener('click', async () => {
   const area = document.getElementById('archiveArea');
   if (area.style.display === 'none') {
     area.style.display = 'block';
-    const ids = ((await getVal(KEY_ARCHIVE_IDS)) || []).slice().reverse();
-    if (!ids.length) {
-      area.innerHTML = '<div class="empty">Noch keine archivierten Beschlüsse.</div>';
-      return;
-    }
-    let html = '';
-    for (const id of ids) {
-      const poll = await getVal(pollKey(id));
-      if (!poll) continue;
-      const votes = (await getVal(votesKey(id))) || {};
-      const tally = computeTally(votes);
-      html += `<div class="archive-item"><strong>${escapeHtml(poll.title)}</strong><br>
-        <span style="color:var(--ink-soft)">${new Date(poll.createdAt).toLocaleDateString('de-DE')} · Verantwortlich: ${escapeHtml(poll.owner || '–')} · Ja: ${tally.ja} · Nein: ${tally.nein} · Enthaltung: ${tally.enthaltung}</span><br>
-        <button class="section-toggle archive-copy-btn" data-id="${id}" style="margin-top:6px;">Ergebnis kopieren</button></div>`;
-    }
-    area.innerHTML = html || '<div class="empty">Noch keine archivierten Beschlüsse.</div>';
-    area.querySelectorAll('.archive-copy-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const id = btn.dataset.id;
-        const poll = await getVal(pollKey(id));
-        const votes = (await getVal(votesKey(id))) || {};
-        const voteEntries = Object.entries(votes);
-        const tally = computeTally(votes);
-        const text = buildExportText(poll, voteEntries, tally);
-        try {
-          await navigator.clipboard.writeText(text);
-          btn.textContent = 'Kopiert!';
-          setTimeout(() => { btn.textContent = 'Ergebnis kopieren'; }, 1500);
-        } catch (e) {
-          alert(text);
-        }
-      });
-    });
+    await renderArchive();
   } else {
     area.style.display = 'none';
   }
